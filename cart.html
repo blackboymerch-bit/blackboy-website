@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Blackboy cart page." />
+  <meta property="og:title" content="Blackboy — Cart" />
+  <meta property="og:description" content="Blackboy cart page." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="assets/images/hero.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#07101f" />
+  <title>Blackboy — Cart</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="index.html">
+        <img src="assets/images/logo.png" alt="Blackboy logo" class="brand-logo" />
+        <span>BLACKBOY</span>
+      </a>
+
+      <button class="menu-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+
+      <nav id="site-nav" class="site-nav">
+        <a class="" href="index.html">Home</a>
+        <a class="" href="about.html">About</a>
+        <a class="" href="collections.html">Collections</a>
+        <a class="" href="lookbook.html">Lookbook</a>
+        <a class="active" href="shop.html">Shop</a>
+        <a class="" href="contact.html">Contact</a>
+        <a class="" href="admin/index.html">Admin</a>
+      </nav>
+
+      <div class="nav-actions">
+        <a class="btn btn-dark btn-sm" href="lookbook.html">Lookbook</a>
+        <a class="btn btn-dark btn-sm cart-link" href="cart.html">Cart <span class="cart-count">0</span></a>
+        <a class="btn btn-gold btn-sm" href="contact.html">Book Consultation</a>
+      </div>
+    </div>
+  </header>
+
+  
+<main>
+  <section class="page-hero">
+    <div class="container reveal">
+      <p class="eyebrow">Cart</p>
+      <h1>Your Blackboy cart.</h1>
+      <p class="lead">Local cart flow included in this prototype.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container cart-layout">
+      <div id="cartItems"></div>
+      <aside class="card cart-summary">
+        <h3>Order Summary</h3>
+        <p id="cartSubtotal" class="price">₦0</p>
+        <p>Shipping and payment gateways are not wired yet in this local prototype.</p>
+        <a class="btn btn-gold" href="checkout.html">Proceed to Checkout</a>
+      </aside>
+    </div>
+  </section>
+</main>
+<script>
+function removeFromCart(id, size) {
+  const cart = getCart().filter(item => !(item.id === id && item.size === size));
+  saveCart(cart);
+  renderCart();
+}
+function renderCart() {
+  const cart = getCart();
+  const wrap = document.getElementById('cartItems');
+  const subtotalEl = document.getElementById('cartSubtotal');
+  if (!cart.length) {
+    wrap.innerHTML = '<div class="card empty-state">Your cart is empty.</div>';
+    subtotalEl.textContent = formatNaira(0);
+    return;
+  }
+  let subtotal = 0;
+  wrap.innerHTML = cart.map(item => {
+    subtotal += (item.price || 0) * item.quantity;
+    return `
+      <div class="line-item" style="display:grid;grid-template-columns:110px 1fr auto;gap:1rem;align-items:center;margin-bottom:1rem;">
+        <img src="${item.image}" alt="${item.name}" style="border-radius:18px;height:110px;object-fit:cover;width:110px;">
+        <div>
+          <h3 style="margin-bottom:.3rem;">${item.name}</h3>
+          <p>Qty: ${item.quantity} ${item.size ? '· Size: ' + item.size : ''}</p>
+          <p class="price">${formatNaira(item.price)}</p>
+        </div>
+        <button class="btn btn-dark btn-sm" onclick="removeFromCart('${item.id}', '${item.size || ''}')">Remove</button>
+      </div>`;
+  }).join('');
+  subtotalEl.textContent = formatNaira(subtotal);
+}
+document.addEventListener('DOMContentLoaded', renderCart);
+</script>
+
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div class="reveal">
+        <a class="brand" href="index.html">
+          <img src="assets/images/logo.png" alt="Blackboy logo" class="brand-logo" />
+          <span>BLACKBOY</span>
+        </a>
+        <p>Modern African luxury across tailoring, streetwear, and runway design.</p>
+      </div>
+      <div class="reveal">
+        <h3>Pages</h3>
+        <ul class="footer-list">
+          <li><a href="about.html">About</a></li>
+          <li><a href="collections.html">Collections</a></li>
+          <li><a href="lookbook.html">Lookbook</a></li>
+          <li><a href="shop.html">Shop</a></li>
+          <li><a href="admin/index.html">Admin</a></li>
+        </ul>
+      </div>
+      <div class="reveal">
+        <h3>Contact</h3>
+        <ul class="footer-list">
+          <li>hello@blackboystudio.com</li>
+          <li>@blackboyofficial</li>
+          <li>Lagos, Nigeria</li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/products.js"></script>
+  <script src="assets/js/script.js"></script>
+</body>
+</html>

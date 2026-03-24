@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Blackboy product detail page." />
+  <meta property="og:title" content="Blackboy — Product Detail" />
+  <meta property="og:description" content="Blackboy product detail page." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="../assets/images/hero.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#07101f" />
+  <title>Blackboy — Product Detail</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="../index.html">
+        <img src="../assets/images/logo.png" alt="Blackboy logo" class="brand-logo" />
+        <span>BLACKBOY</span>
+      </a>
+
+      <button class="menu-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+
+      <nav id="site-nav" class="site-nav">
+        <a class="" href="../index.html">Home</a>
+        <a class="" href="../about.html">About</a>
+        <a class="" href="../collections.html">Collections</a>
+        <a class="" href="../lookbook.html">Lookbook</a>
+        <a class="" href="../shop.html">Shop</a>
+        <a class="" href="../contact.html">Contact</a>
+        <a class="" href="../admin/index.html">Admin</a>
+      </nav>
+
+      <div class="nav-actions">
+        <a class="btn btn-dark btn-sm" href="../lookbook.html">Lookbook</a>
+        <a class="btn btn-dark btn-sm cart-link" href="../cart.html">Cart <span class="cart-count">0</span></a>
+        <a class="btn btn-gold btn-sm" href="../contact.html">Book Consultation</a>
+      </div>
+    </div>
+  </header>
+
+  
+<main>
+  <section class="page-hero">
+    <div class="container reveal">
+      <p class="eyebrow">Product Detail</p>
+      <h1 id="productTitle">Loading product...</h1>
+      <p class="lead">Dedicated product pages included.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container product-detail">
+      <div class="panel-image reveal">
+        <img id="productImage" src="../assets/images/hero.jpg" alt="Product image" />
+      </div>
+      <div class="card reveal">
+        <span class="badge" id="productCategory">Royal</span>
+        <h2 id="productName">Product</h2>
+        <p class="price" id="productPrice">₦0</p>
+        <p id="productDescription"></p>
+        <div id="productFeatures" class="card" style="margin-bottom:1rem;"></div>
+        <div class="form" style="margin-bottom:1rem;">
+          <select class="select" id="sizeSelect"></select>
+          <button class="btn btn-gold" id="addToCartBtn">Add to Cart</button>
+        </div>
+        <div class="stack-actions">
+          <a class="btn btn-dark" href="../shop.html">Back to Shop</a>
+          <a class="btn btn-dark" href="../cart.html">Go to Cart</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const params = new URLSearchParams(window.location.search);
+  const productId = params.get('id');
+  const product = getProducts().find(p => p.id === productId) || getProducts()[0];
+
+  document.getElementById('productTitle').textContent = product.name;
+  document.getElementById('productName').textContent = product.name;
+  document.getElementById('productCategory').textContent = product.category;
+  document.getElementById('productPrice').textContent = formatNaira(product.price);
+  document.getElementById('productDescription').textContent = product.description;
+  document.getElementById('productImage').src = '../' + product.image;
+  document.getElementById('productImage').alt = product.name;
+
+  const features = document.getElementById('productFeatures');
+  features.innerHTML = '<h3>Highlights</h3><ul class="list">' + product.features.map(item => `<li>${item}</li>`).join('') + '</ul>';
+
+  const sizeSelect = document.getElementById('sizeSelect');
+  sizeSelect.innerHTML = product.sizes.map(size => `<option value="${size}">${size}</option>`).join('');
+
+  document.getElementById('addToCartBtn').addEventListener('click', () => {
+    addToCart(product.id, 1, sizeSelect.value);
+    alert('Added to cart');
+  });
+
+  setTimeout(() => document.querySelectorAll('.reveal').forEach(el => el.classList.add('is-visible')), 60);
+});
+</script>
+
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div class="reveal">
+        <a class="brand" href="../index.html">
+          <img src="../assets/images/logo.png" alt="Blackboy logo" class="brand-logo" />
+          <span>BLACKBOY</span>
+        </a>
+        <p>Modern African luxury across tailoring, streetwear, and runway design.</p>
+      </div>
+      <div class="reveal">
+        <h3>Pages</h3>
+        <ul class="footer-list">
+          <li><a href="../about.html">About</a></li>
+          <li><a href="../collections.html">Collections</a></li>
+          <li><a href="../lookbook.html">Lookbook</a></li>
+          <li><a href="../shop.html">Shop</a></li>
+          <li><a href="../admin/index.html">Admin</a></li>
+        </ul>
+      </div>
+      <div class="reveal">
+        <h3>Contact</h3>
+        <ul class="footer-list">
+          <li>hello@blackboystudio.com</li>
+          <li>@blackboyofficial</li>
+          <li>Lagos, Nigeria</li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../assets/js/products.js"></script>
+  <script src="../assets/js/script.js"></script>
+</body>
+</html>

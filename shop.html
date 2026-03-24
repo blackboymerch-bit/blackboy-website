@@ -1,0 +1,122 @@
+!<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Blackboy product catalog with product details and cart flow." />
+  <meta property="og:title" content="Blackboy — Shop" />
+  <meta property="og:description" content="Blackboy product catalog with product details and cart flow." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="assets/images/hero.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#07101f" />
+  <title>Blackboy — Shop</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="index.html">
+        <img src="assets/images/logo.png" alt="Blackboy logo" class="brand-logo" />
+        <span>BLACKBOY</span>
+      </a>
+
+      <button class="menu-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+
+      <nav id="site-nav" class="site-nav">
+        <a class="" href="index.html">Home</a>
+        <a class="" href="about.html">About</a>
+        <a class="" href="collections.html">Collections</a>
+        <a class="" href="lookbook.html">Lookbook</a>
+        <a class="active" href="shop.html">Shop</a>
+        <a class="" href="contact.html">Contact</a>
+        <a class="" href="admin/index.html">Admin</a>
+      </nav>
+
+      <div class="nav-actions">
+        <a class="btn btn-dark btn-sm" href="lookbook.html">Lookbook</a>
+        <a class="btn btn-dark btn-sm cart-link" href="cart.html">Cart <span class="cart-count">0</span></a>
+        <a class="btn btn-gold btn-sm" href="contact.html">Book Consultation</a>
+      </div>
+    </div>
+  </header>
+
+  
+<main>
+  <section class="page-hero">
+    <div class="container reveal">
+      <p class="eyebrow">Shop / Product Line</p>
+      <h1>A product catalog that looks luxury instead of generic.</h1>
+      <p class="lead">Includes product detail pages, cart, and checkout flow in this prototype build.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container"><div id="productGrid" class="shop-grid"></div></div>
+  </section>
+</main>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const grid = document.getElementById('productGrid');
+  const products = getProducts();
+  grid.innerHTML = products.map(product => `
+    <article class="product-card reveal">
+      <div class="tile-image"><img src="${product.image}" alt="${product.name}" /></div>
+      <div class="content">
+        <span class="badge">${product.category}</span>
+        <h3>${product.name}</h3>
+        <p class="price">${formatNaira(product.price)}</p>
+        <p>${product.short}</p>
+        <div class="stack-actions">
+          <a class="btn btn-dark btn-sm" href="products/detail.html?id=${product.id}">Details</a>
+          <button class="btn btn-gold btn-sm" onclick="addToCart('${product.id}', 1, '')">Add to cart</button>
+        </div>
+      </div>
+    </article>
+  `).join('');
+  setTimeout(() => {
+    document.querySelectorAll('.reveal').forEach(el => el.classList.add('is-visible'));
+  }, 60);
+});
+</script>
+
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div class="reveal">
+        <a class="brand" href="index.html">
+          <img src="assets/images/logo.png" alt="Blackboy logo" class="brand-logo" />
+          <span>BLACKBOY</span>
+        </a>
+        <p>Modern African luxury across tailoring, streetwear, and runway design.</p>
+      </div>
+      <div class="reveal">
+        <h3>Pages</h3>
+        <ul class="footer-list">
+          <li><a href="about.html">About</a></li>
+          <li><a href="collections.html">Collections</a></li>
+          <li><a href="lookbook.html">Lookbook</a></li>
+          <li><a href="shop.html">Shop</a></li>
+          <li><a href="admin/index.html">Admin</a></li>
+        </ul>
+      </div>
+      <div class="reveal">
+        <h3>Contact</h3>
+        <ul class="footer-list">
+          <li>hello@blackboystudio.com</li>
+          <li>@blackboyofficial</li>
+          <li>Lagos, Nigeria</li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/products.js"></script>
+  <script src="assets/js/script.js"></script>
+</body>
+</html>
